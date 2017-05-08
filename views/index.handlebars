@@ -1,0 +1,64 @@
+    <div class="header">
+        <div class="row">
+            <div class="col s12 burg1">
+                <h1>Eat A Burger</h1>
+            </div>
+        </div> <!--/.row-->
+    </div> <!--/.header-->
+<div class="container">
+    <div class="main">
+        <div class="row">
+            <div class="col s5 burg">
+                <h3>Burgers Ready to Eat!</h3>
+                <ul>
+                    {{#each foobar}}
+                        {{#unless this.devoured}}
+                            <li>
+                                {{this.burger_name}}
+
+                                <form action="/{{this.id}}?_method=PUT" method="POST">
+                                    <input type="hidden" name="devoured" value="true">
+                                    <button type="submit">Nom Nom Nom!</button>
+                                </form>
+                            </li>
+                        {{/unless}}
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col s2"></div>
+            <div class="col s5 burg">
+                <h3>Burgers GONE!</h3>
+                <ul>
+                    {{#each foobar}}
+                        {{#if this.devoured}}
+                            <li>
+                                {{this.burger_name}}
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div> <!-- /.row -->
+
+        <div class="row">
+            <div class="col s10 burg">
+                <h3>Add a Burger</h3>
+                <form class="create-update-form" action="/index" method="POST">
+                    <div class="form-group burg-form">
+                        <label for="bu">Burger Name:</label>
+                        <input type="text" id="bu" name="name">
+                    </div>
+                    <button type="submit">Add Burger</button>
+                </form>
+            </div>
+        </div> <!--/.row-->
+</div> <!-- /.container -->
+    </div> <!--/.main-->
+    <footer class="page-footer burg">
+        <div class="footer-copyright">
+            <div class="container">
+                © 2017 Ariel M. Costa
+                <a class="grey-text text-lighten-4 right" href="https://github.com/amcosta9/burger">GitHub</a>
+            </div>
+        </div>
+    </footer>
