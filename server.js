@@ -1,11 +1,10 @@
 /**
  * Created by Ariel on 5/1/2017.
  */
-var orm = require('./config/orm.js'),
-    express = require('express'),
+var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    routes = require('./controllers/burgers_controller.js');
+    routes = require('./models/burger.js');
 
 // Sets up express Server
 var app = express();
@@ -16,11 +15,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+
 // serve static content from public dir
-// app.use(express.static('./public'));
 app.use(express.static(process.cwd() + "/public"));
-// enable POST override
-app.use(methodOverride("_method"));
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");
@@ -30,8 +27,11 @@ app.set("view engine", "handlebars");
 
 app.use("/", routes);
 
-// starting server w/ listener
-app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
+// sync sequelize models and start express server
+routes.sequelize.sync({ force: true }).then(function() {
+    // starting server w/ listener
+    app.listen(PORT, function() {
+        console.log("App listening on PORT " + PORT);
+    });
 });
 

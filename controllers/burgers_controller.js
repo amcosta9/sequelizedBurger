@@ -1,43 +1,56 @@
-var express = require('express'),
-    router = express.Router(),
-    burger = require('../models/burger.js');
+var db = require("../models/burger.js");
 
-// Create routes
+module.exports = function(app) {
 
-router.get('/', function(req, res) {
-    res.redirect('/index');
-});
-
-// Render page with all objects from burgers table in burgers_db
-router.get("/index", function(req, res) {
-    burger.selectAll(function(data) {
-        console.log(data);
-        var hbsObject = {
-            foobar: data
-        };
-        console.log(hbsObject);
-        res.render("index", hbsObject);
-    });
-});
-
-// Post route to /index when adding new burger
-router.post('/index', function(req, res) {
-    burgerName = req.body.name;
-    console.log('new burg name: ', burgerName);
-    burger.insertOne(burgerName, function() {
+    // Create routes
+    app.get('/', function(req, res) {
         res.redirect('/index');
     });
-});
 
-
-// Put route to /index/:id when updating burger to devoured=true
-router.put("/:id", function(req, res) {
-    var condition = req.params.id;
-    console.log("id to update: ", condition);
-    burger.updateOne(condition, function() {
-        res.redirect("/index");
+    // Render page with all objects from burgers table in burgers_db
+    app.get("/index", function(req, res) {
+        db.Burger.findAll({}).then(function(data) {
+            console.log(data);
+            var hbsObject = {
+                foobar: data
+            };
+            console.log(hbsObject);
+            res.render("index", hbsObject);
+        });
     });
-});
 
-// Export routes for server.js to use.
-module.exports = router;
+    // Post route to /index when adding new burger
+    app.post('/index', function(req, res) {
+        // burgerName = req.body.name;
+        // console.log('new burg name: ', burgerName);
+        db.Burger.create({
+            burger_name: req.body.name
+        }).then(function (results) {
+            res.json(results);
+            // res.redirect('/index');
+        });
+    });
+
+
+    // Put route to /index/:id when updating burger to devoured=true
+    app.put("/:id", function(req, res) {
+        console.log(JSON.stringify(req.body));
+        console.log("id to update: ", req.params.id);
+
+        db.Burger.update({
+            burger_name: req.body.name,
+            devoured: true
+        }, {
+            where: {
+                id: req.params.id
+            }
+        }).then(function(results) {
+            res.json(results);
+            // res.redirect("/index");
+        });
+
+    });
+
+
+
+};
