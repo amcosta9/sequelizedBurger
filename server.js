@@ -18,6 +18,8 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // serve static content from public dir
 app.use(express.static(process.cwd() + "/public"));
+// enable method override
+app.use(methodOverride("_method"));
 
 // Set Handlebars.
 var exphbs = require("express-handlebars");

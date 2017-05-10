@@ -31,19 +31,17 @@ module.exports = function(app) {
 
     // Put route to /index/:id when updating burger to devoured=true
     app.put("/:id", function(req, res) {
-        console.log(JSON.stringify(req.body));
+        // console.log(JSON.stringify(req.body));
         console.log("id to update: ", req.params.id);
 
         db.Burger.update({
-            burger_name: req.body.name,
             devoured: true
         }, {
             where: {
                 id: req.params.id
             }
         }).then(function(results) {
-            res.json(results);
-            // res.redirect("/index");
+            res.redirect("/index");
         });
 
     });
