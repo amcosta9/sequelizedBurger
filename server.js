@@ -4,7 +4,7 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    routes = require('./models/burger.js');
+    db = require('./models');
 
 // Sets up express Server
 var app = express();
@@ -25,10 +25,11 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.use("/", routes);
+// app.use("/", routes);
+require("./controllers/burgers_controller.js")(app);
 
 // sync sequelize models and start express server
-routes.sequelize.sync({ force: true }).then(function() {
+db.sequelize.sync({ force: true }).then(function() {
     // starting server w/ listener
     app.listen(PORT, function() {
         console.log("App listening on PORT " + PORT);

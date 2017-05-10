@@ -1,4 +1,4 @@
-var db = require("../models/burger.js");
+var db = require("../models");
 
 module.exports = function(app) {
 
@@ -21,13 +21,10 @@ module.exports = function(app) {
 
     // Post route to /index when adding new burger
     app.post('/index', function(req, res) {
-        // burgerName = req.body.name;
-        // console.log('new burg name: ', burgerName);
         db.Burger.create({
             burger_name: req.body.name
         }).then(function (results) {
-            res.json(results);
-            // res.redirect('/index');
+            res.redirect('/index');
         });
     });
 
