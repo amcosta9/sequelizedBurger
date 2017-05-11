@@ -13,7 +13,7 @@
 5. Navigate to: `localhost:5432/` in the browser to check out the app.  
 
 
-**_Alternatively, this app is live [here](https://www.needherokulink.com) _**
+**_Alternatively, this app is live [here](https://lit-coast-42984.herokuapp.com/) _**
 
 
 
